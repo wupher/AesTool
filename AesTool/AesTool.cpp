@@ -36,6 +36,12 @@ string aes128Encrypt(string content, string password) {
 	unsigned char key[20];
 	SHA1((unsigned char*)password.data(), password.size(), key);
 
+	cout << "密钥sha-1 hexString:";
+	for (int i = 0; i < 20; ++i) {
+		cout << std::hex << (int)key[i];
+	}
+	cout << endl;
+
 	//aes128 with ecb
 	EVP_CIPHER_CTX* ctx;
 	ctx = EVP_CIPHER_CTX_new();
@@ -92,18 +98,18 @@ string aes128Decrypt(string cipher, string password) {
 
 int main()
 {
-	string content = u8"{\"name\":\"结帐重开\",\"value\":\"0\"},{\"name\":\"买断\",\"value\":\"0\"},{\"name\":\"生日房\",\"value\":\"0\"}";
-	string pwd = "1234567890";
+	string content = "1234567890";
+	string pwd = "123456";
 	string funcResult = aes128Encrypt(content, pwd);
 
 
 
-	cout << "password: " << pwd << endl;
+	cout << "密钥: " << pwd << endl;
 
-	cout << "Fun encrypt: " << funcResult << endl;
+	cout << "密文: " << funcResult << endl;
 
 	string decryption = aes128Decrypt(funcResult, pwd);
-	cout << "decrypt: " << decryption << endl;
+	cout << "解密后的明文: " << decryption << endl;
 
     return 0;
 }
